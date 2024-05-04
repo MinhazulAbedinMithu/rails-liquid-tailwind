@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../../assets/stylesheets/application.tailwind.css">
+</head>
+<body>
+  <section class="w-full px-3 py-3">
+    <h4 class="font-bold text-2xl py-4">Example 1</h4>
+    
+    <div class="hidden lg:block">
+      <% @courses.each_slice(4).each_with_index do |chunk, chunk_index| %>
+      <div class="relative flex bg-gray-100 p-3 w-full <%= 'flex-row-reverse' if chunk_index.odd? %>">
+        <% if chunk_index != (@courses.size / 4) %>
+          <div class="absolute h-[73px] z-50 top-5 <%= chunk_index.odd? ? 'left-2 border-l' : 'right-[10px] border-r' %> w-[10px] rounded-md border-gray-800"></div>
+        <% end %>
+        
+        <% if chunk_index % 2 === 0 %>
+          <div class="relative w-[20%]">
+            
+            <% if chunk_index === 0 %>  
+            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-4 z-[10]"></div>
+            <div class="bg-gray-800 border border-gray-800 rounded-full size-4"></div>
+            <% else %>
+            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-0 z-[10]"></div>
+            <% end %>
+          </div> 
+          <% end %>
+        
+        <% chunk.each do |course| %>
+          <div class="relative w-[20%]">
+            <div class="absolute h-[1px] bg-gray-800 w-[calc(100%-16px)] top-2 left-4 z-[10]"></div>
+            <% if course[:is_completed] %>
+              <div class="bg-green-500 size-4 rounded-full !z-[999] border block overflow-hidden"></div>
+            <% else %>
+              <div class="bg-transparent border border-gray-800 rounded-full size-4"></div>
+            <% end %>
+            <h4 class="text-base mb-2"><%= course[:course_name] %></h4>
+          </div>
+        <% end %>
+        
+        <% if chunk_index % 2 != 0 %>
+          <div class="relative w-[20%]">
+            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-0 z-[10]"></div>
+            
+          </div> 
+        <% end %>
+  
+  
+        <% if ((@courses.size % 4) != 0) && (chunk_index === (@courses.size / 4)) %>
+          <!-- Render additional "demo" items based on the remainder -->
+          <% (4 - (@courses.size % 4)).times do %>
+          <div class="relative w-[20%]">
+            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-0 z-[10]"></div> 
+          </div> 
+          <% end %>
+        <% end %>
+        <% if chunk_index === (@courses.size / 4) %>
+          <div class="relative flex <%= chunk_index.odd? ? ' justify-start' : ' justify-end' %>">
+            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 <%= chunk_index.odd? ? 'left-4 ' : 'right-4' %> z-[10]"></div>
+            <div class="bg-gray-800 border border-gray-800 rounded-full size-4"></div>
+          </div> 
+        <% end %>
+        
+      </div>
+      <% end %>
+    </div>
+    <div class="block lg:hidden ">
+     <div class="flex w-full flex-col gap-2">
+      <div class="relative w-[100%] flex items-start justify-start gap-3 ">
+        <div class="absolute h-[35px] bg-gray-800 w-[1px] top-[18px] left-[8px] z-[10]"></div>
+        
+         <div class="bg-gray-800 border  border-gray-800 rounded-full size-4"></div>
+         <h4 class="text-base mb-2 invisible">fdg</h4>
+        </div>
+      <% @courses.each_with_index do |course, index| %>
+        <div class="relative w-[100%] flex items-start justify-start gap-3 ">
+        <div class="absolute h-[25px] bg-gray-800 w-[1px] top-[18px] left-[8px] z-[10]"></div>
+        <% if course[:is_completed] %>
+         <div class="bg-green-500 size-4 mt-[3px] rounded-full !z-[999] border block overflow-hidden"></div>
+        <% else %>
+         <div class="bg-transparent border mt-[2px]  border-gray-800 rounded-full size-4"></div>
+        <% end %>
+        <h4 class="text-base mb-2"><%= course[:course_name] %></h4>
+        </div>
+      <% end %>
+
+
+      <div class="relative w-[100%] flex items-start justify-start gap-3 ">
+        
+         <div class="bg-gray-800 border  border-gray-800 rounded-full size-4"></div>
+         <h4 class="text-base mb-2 invisible">fdg</h4>
+        </div>
+     </div>
+    </div>
+
+  </section>
+</body>
+
+
