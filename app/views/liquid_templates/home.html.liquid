@@ -13,15 +13,17 @@
     <div class="hidden lg:block">
       <% @courses.each_slice(4).each_with_index do |chunk, chunk_index| %>
       <div class="relative flex bg-gray-100 p-3 w-full <%= 'flex-row-reverse' if chunk_index.odd? %>">
-        <% if chunk_index != (@courses.size / 4) %>
-          <div class="absolute h-[73px] z-50 top-5 <%= chunk_index.odd? ? 'left-2 border-l' : 'right-[10px] border-r' %> w-[10px] rounded-md border-gray-800"></div>
+        <% if chunk_index != ((@courses.size / 4)) && ((@courses.size % 4) != 0) %>
+          <div class="absolute h-[73px] z-50 top-5 <%= (chunk_index.odd?) ? 'left-2 border-l' : 'right-[10px] border-r' %> w-[10px] rounded-md border-gray-800"></div>
+        <% elsif chunk_index+1 != ((@courses.size / 4)) && ((@courses.size % 4) == 0) %>
+          <div class="absolute h-[73px] z-50 top-5 <%= (chunk_index.odd?) ? 'left-2 border-l' : 'right-[10px] border-r' %> w-[10px] rounded-md border-gray-800"></div>
         <% end %>
         
         <% if chunk_index % 2 === 0 %>
           <div class="relative w-[20%]">
             
             <% if chunk_index === 0 %>  
-            <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-4 z-[10]"></div>
+            <div class="absolute h-[1px] bg-gray-800 w-[calc(100%-16px)] top-2 left-4 z-[10]"></div>
             <div class="bg-gray-800 border border-gray-800 rounded-full size-4"></div>
             <% else %>
             <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 left-0 z-[10]"></div>
@@ -30,7 +32,7 @@
           <% end %>
         
         <% chunk.each do |course| %>
-          <div class="relative w-[20%]">
+          <div class="relative w-[20%] !overflow-hidden">
             <div class="absolute h-[1px] bg-gray-800 w-[calc(100%-16px)] top-2 left-4 z-[10]"></div>
             <% if course[:is_completed] %>
               <div class="bg-green-500 size-4 rounded-full !z-[999] border block overflow-hidden"></div>
@@ -62,6 +64,10 @@
             <div class="absolute h-[1px] bg-gray-800 w-[100%] top-2 <%= chunk_index.odd? ? 'left-4 ' : 'right-4' %> z-[10]"></div>
             <div class="bg-gray-800 border border-gray-800 rounded-full size-4"></div>
           </div> 
+        <% elsif (chunk_index+1 === (@courses.size / 4)) && (@courses.size%4 == 0) %>
+        <div class="relative flex <%= chunk_index.odd? ? ' justify-start' : ' justify-end' %>">
+          <div class="bg-gray-800 border border-gray-800 rounded-full size-4"></div>
+        </div> 
         <% end %>
         
       </div>
